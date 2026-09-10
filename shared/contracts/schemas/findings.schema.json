@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tender-review/contracts/v1.2/schemas/findings.schema.json",
+  "title": "Findings (v1.2)",
+  "description": "Issues found during review with severity, certainty, bilateral evidence, observation method, and review traceability. Severity ≠ certainty; potential_rejection requires bilateral evidence with parseable location.",
+  "type": "object",
+  "required": ["contract_version", "findings_id", "manifest_id", "findings"],
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "v1.2",
+      "description": "Exact contract version; must be 'v1.2'."
+    },
+    "findings_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for this findings instance."
+    },
+    "manifest_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Must match the manifest_id from file-manifest.json for this review cycle."
+    },
+    "findings": {
+      "type": "array",
+      "description": "Array of individual findings/issues discovered during review.",
+      "items": {
+        "$ref": "#/definitions/Finding"
+      }
+    }
+  },
+  "definitions": {
+    "Finding": {
+      "type": "object",
+      "required": ["issue_id", "severity", "certainty", "observation_method", "review_status"],
+      "additionalProperties": false,
+      "properties": {
+        "issue_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable unique identifier for this finding (e.g. 'I1', 'I2')."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["potential_rejection", "high", "medium", "low", "informational"],
+          "description": "Impact severity. potential_rejection=可能导致否决; high=重大问题; medium=中等问题; low=轻微问题; informational=仅供参考."
+        },
+        "certainty": {
+          "type": "string",
+          "enum": ["confirmed", "likely", "uncertain", "unverified"],
+          "description": "How certain the reviewer is about this finding. confirmed=已确认; likely=高度可能; uncertain=不确定; unverified=未验证. Severity ≠ certainty: high risk ≠ confirmed."
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Brief one-line summary of the finding. Retained from v1.2 reviewed contracts."
+        },
+        "observation_method": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Method used to observe/discover this finding (e.g. 'visual_read', 'text_comparison', 'calculation', 'render_view')."
+        },
+        "requirement_refs": {
+          "type": "array",
+          "description": "References to requirements from the requirements matrix. Required for potential_rejection findings.",
+          "items": {
+            "$ref": "#/definitions/RequirementRef"
+          }
+        },
+        "bid_evidence": {
+          "type": "array",
+          "description": "Bid-side evidence supporting or contradicting the finding. Required for potential_rejection. Each entry specifies file, location, and evidence type.",
+          "items": {
+            "$ref": "#/definitions/EvidenceEntry"
+          }
+        },
+        "image_evidence": {
+          "type": "array",
+          "description": "Image/render evidence entries. Each must reference a valid file_id from the manifest.",
+          "items": {
+            "$ref": "#/definitions/ImageEvidenceEntry"
+          }
+        },
+        "review_status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "pending_review",
+            "reviewed_confirmed",
+            "reviewed_downgraded",
+            "reviewed_withdrawn"
+          ],
+          "description": "Review status of this finding. open=已发现待初审; pending_review=待独立复核; reviewed_confirmed=复核确认; reviewed_downgraded=复核降级; reviewed_withdrawn=复核撤回. Authors must not self-claim reviewed without --review-pack."
+        },
+        "limitations": {
+          "type": "array",
+          "description": "Limitations, caveats, or reasons for downgrade/withdrawal. Each entry is a non-empty string.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable detailed description of the finding."
+        },
+        "recommendation": {
+          "type": "string",
+          "description": "Suggested action or remediation."
+        }
+      }
+    },
+    "RequirementRef": {
+      "type": "object",
+      "required": ["requirement_id"],
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "requirement_id from the requirements matrix."
+        },
+        "file_id": {
+          "type": "string",
+          "description": "Optional: when present, must equal the referenced requirement's source_file_id. Used for clarity, not to override the canonical source."
+        },
+        "location": {
+          "type": "string",
+          "description": "Optional: narrowed location within the requirement's source clause. Must be within the range defined by the requirement's location."
+        }
+      }
+    },
+    "EvidenceEntry": {
+      "type": "object",
+      "required": ["file_id", "evidence_type"],
+      "additionalProperties": false,
+      "properties": {
+        "file_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "file_id from file-manifest. Must NOT be a tender_document role file."
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Precise location within the file. Required for present-type evidence."
+        },
+        "evidence_type": {
+          "type": "string",
+          "enum": ["present", "absence"],
+          "description": "present=evidence found at location; absence=evidence explicitly not found after search."
+        },
+        "coverage_item_id": {
+          "type": "string",
+          "description": "Optional: specific coverage item_id that established this evidence. Restricts coverage validation to that item."
+        },
+        "searched_coverage_item_ids": {
+          "type": "array",
+          "description": "Required for absence evidence: list of coverage item_ids that were checked and did not contain the evidence.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "observation": {
+          "type": "string",
+          "description": "What was observed or not observed at this evidence location. Retained from v1.2 reviewed contracts."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Direct quote from the evidence source, if applicable."
+        }
+      }
+    },
+    "ImageEvidenceEntry": {
+      "type": "object",
+      "required": ["file_id"],
+      "additionalProperties": false,
+      "properties": {
+        "file_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "file_id from file-manifest referencing an image or PDF page."
+        },
+        "page_or_location": {
+          "type": "string",
+          "description": "Specific page or location within the image/PDF."
+        },
+        "description": {
+          "type": "string",
+          "description": "What was observed in the image (text, chart, seal, etc.)."
+        },
+        "legibility": {
+          "type": "string",
+          "enum": ["clear", "partially_legible", "illegible"],
+          "description": "How legible the image content was. clear=可辨认; partially_legible=部分模糊; illegible=不可辨认."
+        },
+        "legibility_notes": {
+          "type": "string",
+          "description": "Details about illegible or partially legible areas (e.g. 'low resolution', 'obscured by watermark')."
+        }
+      }
+    }
+  }
+}

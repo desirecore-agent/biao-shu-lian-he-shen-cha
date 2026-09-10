@@ -8,10 +8,10 @@
       "source": "git",
       "role": "supervisor",
       "url": "https://github.com/desirecore-agent/tender-review-lead.git",
-      "commit": "d00cd383e4ae14fa4954fd99036f5a08628f5da1",
+      "commit": "f4619f1c467f4fb962efb4ec881e9f937fadbf7d",
       "syncedAt": "2026-09-11T00:00:00Z",
       "version": "0.1.0",
-      "contentHash": "v3:a32eb4da7cea4d036b6eee580053dd316da77b6e45e32b3f289ee362a86383a8"
+      "contentHash": "v3:c55aa414fb36e84e33b602760d083f8857c7014480be7adc66f82adf569362e3"
     },
     "tender-review-requirements": {
       "source": "git",

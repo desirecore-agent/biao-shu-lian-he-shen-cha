@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tender-review/contracts/v1.2/schemas/coverage.schema.json",
+  "title": "Coverage Ledger (v1.2)",
+  "description": "Per-file, per-item review coverage with closure status. Denominator must equal completed+failed+unchecked. coverage_file_ids declares the full file set; excluded entries use 'file_id: reason' format.",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "coverage_id",
+    "manifest_id",
+    "coverage_closed",
+    "planned_items",
+    "completed_items",
+    "failed_items",
+    "unchecked_items",
+    "coverage_file_ids",
+    "items"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "v1.2",
+      "description": "Exact contract version; must be 'v1.2'."
+    },
+    "coverage_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for this coverage ledger instance."
+    },
+    "manifest_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Must match the manifest_id from file-manifest.json for this review cycle."
+    },
+    "coverage_closed": {
+      "type": "boolean",
+      "description": "True when every planned item has been processed (status is checked, failed, or unchecked) and all required reasons are present. A ledger with failures and/or unchecked items with reasons is still closed; it means accounting is complete, not that review was fully successful."
+    },
+    "planned_items": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total planned review items (denominator). Must equal completed_items+failed_items+unchecked_items when all counts are from items recount."
+    },
+    "completed_items": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of items with status='checked'. Recounted from items array."
+    },
+    "failed_items": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of items with status='failed'. Recounted from items array."
+    },
+    "unchecked_items": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of items with status='unchecked'. Recounted from items array."
+    },
+    "coverage_file_ids": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Declares the full set of file_ids covered by this ledger. Every file in manifest must appear here or in excluded.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "excluded": {
+      "type": "array",
+      "description": "Files excluded from coverage. Each entry must be 'file_id: non-empty reason'. Bare IDs or empty reasons are invalid.",
+      "items": {
+        "type": "string",
+        "pattern": "^[^:]+:.+",
+        "description": "Format: 'file_id: non-empty reason for exclusion'."
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "Individual coverage items. Each represents one review action on a file or file-section.",
+      "items": {
+        "$ref": "#/definitions/CoverageItem"
+      }
+    }
+  },
+  "definitions": {
+    "CoverageItem": {
+      "type": "object",
+      "required": ["item_id", "file_id", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable unique identifier for this coverage item."
+        },
+        "file_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "file_id from file-manifest."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location within the file (e.g. page range, section). Required for checked items that establish evidence coverage."
+        },
+        "method": {
+          "type": "string",
+          "description": "Method used for review (e.g. 'visual_read', 'text_extract', 'ocr', 'render_view'). At least one of method/location required for checked items."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["checked", "failed", "unchecked"],
+          "description": "Review status: checked=reviewed successfully; failed=attempted but failed; unchecked=not yet reviewed."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for failure or unchecked status. Required for failed and unchecked items."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes about this coverage item."
+        }
+      }
+    }
+  }
+}

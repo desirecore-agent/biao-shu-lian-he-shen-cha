@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tender-review/contracts/v1.2/schemas/review-report.schema.json",
+  "title": "Review Report (v1.2)",
+  "description": "Final consolidated review report with conclusion, open items, tool failures, and review summary. Unclosed coverage or unresolved failures prohibit pass/pass_with_cautions. Single-written by the lead agent.",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "report_id",
+    "scope",
+    "inputs_version",
+    "coverage_ref",
+    "conclusion",
+    "unresolved",
+    "unchecked_items",
+    "tool_failures"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "v1.2",
+      "description": "Exact contract version; must be 'v1.2'."
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable unique identifier for this report."
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Explicit description of reviewed scope, exclusions, and incomplete areas."
+    },
+    "inputs_version": {
+      "type": "object",
+      "required": ["manifest_id"],
+      "additionalProperties": false,
+      "description": "References the manifest_id this report is bound to.",
+      "properties": {
+        "manifest_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Must match the manifest_id from file-manifest.json."
+        }
+      }
+    },
+    "coverage_ref": {
+      "type": "object",
+      "required": ["coverage_id", "coverage_closed", "planned_items", "completed_items", "failed_items", "unchecked_items"],
+      "additionalProperties": false,
+      "description": "Reference to the coverage ledger with counts that must match the coverage recount.",
+      "properties": {
+        "coverage_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "coverage_id from coverage.json."
+        },
+        "coverage_closed": {
+          "type": "boolean",
+          "description": "Must match coverage.json's coverage_closed."
+        },
+        "planned_items": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Must match recount from coverage items."
+        },
+        "completed_items": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Must match recount from coverage items."
+        },
+        "failed_items": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Must match recount from coverage items."
+        },
+        "unchecked_items": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Must match recount from coverage items."
+        }
+      }
+    },
+    "conclusion": {
+      "type": "string",
+      "enum": ["pass", "pass_with_cautions", "issues_found", "partial_only", "cannot_conclude"],
+      "description": "Overall conclusion. pass/pass_with_cautions require closed coverage, no unchecked items, no unresolved tool failures. partial_only/cannot_conclude used when coverage is incomplete or failures exist."
+    },
+    "unresolved": {
+      "type": "array",
+      "description": "Items requiring authorized human decision. Each entry is a non-empty string.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unchecked_items": {
+      "type": "array",
+      "description": "Items that were not checked, with reasons.",
+      "items": {
+        "type": "object",
+        "required": ["item", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "item": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Description of the unchecked item."
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Why this item was not checked."
+          }
+        }
+      }
+    },
+    "tool_failures": {
+      "type": "array",
+      "description": "Recorded tool/capability failures. Unresolved failures (resolved≠true) block pass conclusions.",
+      "items": {
+        "type": "object",
+        "required": ["failure"],
+        "additionalProperties": false,
+        "properties": {
+          "failure": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Description of the tool failure."
+          },
+          "scope": {
+            "type": "string",
+            "description": "Which part of the review was affected."
+          },
+          "resolved": {
+            "type": "boolean",
+            "description": "True if the failure has been resolved. Omit or set false when unresolved; do not use null."
+          },
+          "resolution_notes": {
+            "type": "string",
+            "description": "How the failure was resolved, if applicable."
+          }
+        }
+      }
+    },
+    "review_summary": {
+      "description": "Optional summary from independent review. Null if no independent review has been conducted. When present, reviewed_count is required.",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": ["reviewed_count", "notes"],
+          "additionalProperties": false,
+          "properties": {
+            "reviewed_count": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of findings reviewed by the independent reviewer."
+            },
+            "notes": {
+              "type": "string",
+              "description": "Review notes. For downgraded/withdrawn findings, include exact issue_id references (e.g. 'I1: reason; I3: reason')."
+            }
+          }
+        }
+      ]
+    },
+    "disclaimers": {
+      "type": "array",
+      "description": "Additional disclaimers and limitations. Never null; defaults to standard assistance-level disclaimer.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

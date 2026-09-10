@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tender-review/contracts/v1.2/schemas/project-profile.schema.json",
+  "title": "Project Profile (v1.2)",
+  "description": "Procurement context, program classification, applicable regulations, known/unknown facts, material versions, and review scope for one tender review cycle.",
+  "type": "object",
+  "required": ["contract_version", "project_id", "procurement_program", "classification_basis"],
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "v1.2",
+      "description": "Exact contract version; must be 'v1.2'."
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable project identifier for this review cycle."
+    },
+    "procurement_program": {
+      "$ref": "#/definitions/ProcurementProgram",
+      "description": "Classified procurement program type (e.g. public_tender, competitive_negotiation, etc.). Unknown → explicit 'unknown' value."
+    },
+    "classification_basis": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable explanation of why the procurement program was classified as stated."
+    },
+    "applicable_regulations": {
+      "type": "array",
+      "description": "List of applicable laws, regulations, or policy references. Each entry is a non-empty string.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "known_facts": {
+      "type": "array",
+      "description": "Established facts verified from source materials.",
+      "items": {
+        "type": "object",
+        "required": ["fact_id", "statement", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "fact_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier for this fact."
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Description of the verified fact."
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Source file_id and location where this fact was found."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["verified", "assumed", "unverified"],
+            "description": "Verification status: verified from source, assumed from context, or explicitly unverified."
+          }
+        }
+      }
+    },
+    "unknown_items": {
+      "type": "array",
+      "description": "Items explicitly marked as unknown or unverifiable.",
+      "items": {
+        "type": "object",
+        "required": ["item_id", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "item_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "What is unknown and why it could not be determined."
+          }
+        }
+      }
+    },
+    "material_versions": {
+      "type": "array",
+      "description": "Versions of source materials considered in this cycle.",
+      "items": {
+        "type": "object",
+        "required": ["file_id", "version_label"],
+        "additionalProperties": false,
+        "properties": {
+          "file_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Reference to file-manifest entry."
+          },
+          "version_label": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Version identifier or label from the source document."
+          }
+        }
+      }
+    },
+    "review_scope": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Explicit description of what is and is not covered by this review."
+    },
+    "assumptions": {
+      "type": "array",
+      "description": "Working assumptions made during review, clearly separated from verified facts.",
+      "items": {
+        "type": "object",
+        "required": ["assumption_id", "statement"],
+        "additionalProperties": false,
+        "properties": {
+          "assumption_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier."
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The assumption statement."
+          },
+          "impact_if_wrong": {
+            "type": "string",
+            "description": "What would change if this assumption is incorrect."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ProcurementProgram": {
+      "type": "string",
+      "enum": [
+        "public_tender",
+        "invite_tender",
+        "competitive_negotiation",
+        "single_source",
+        "inquiry",
+        "framework_agreement",
+        "government_procurement",
+        "other",
+        "unknown"
+      ],
+      "description": "Procurement program classification. Use 'unknown' when not determinable from available materials."
+    }
+  }
+}

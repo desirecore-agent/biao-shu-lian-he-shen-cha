@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tender-review/contracts/v1.2/schemas/requirements.schema.json",
+  "title": "Requirements Matrix (v1.2)",
+  "description": "Clause-by-clause extraction of tender requirements with source attribution, supersession relations, and version binding via manifest_id.",
+  "type": "object",
+  "required": ["contract_version", "matrix_id", "manifest_id", "requirements"],
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "v1.2",
+      "description": "Exact contract version; must be 'v1.2'."
+    },
+    "matrix_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for this requirements matrix instance."
+    },
+    "manifest_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Must match the manifest_id from file-manifest.json for this review cycle."
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Array of extracted requirement entries.",
+      "items": {
+        "$ref": "#/definitions/RequirementEntry"
+      }
+    },
+    "supersede_relations": {
+      "type": "array",
+      "description": "Explicit supersession relations between requirements. Must be consistent with each requirement's superseded_by field, acyclic, and have valid endpoints.",
+      "items": {
+        "$ref": "#/definitions/SupersedeRelation"
+      }
+    }
+  },
+  "definitions": {
+    "RequirementEntry": {
+      "type": "object",
+      "required": ["requirement_id", "source_file_id", "location", "source_quote", "requirement_type", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable unique identifier for this requirement clause."
+        },
+        "source_file_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "file_id from file-manifest referencing the tender-side source document."
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Precise location in the source document (e.g. '第5页', 'body:3.2.1', 'page 1')."
+        },
+        "source_quote": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "[\\s\\S]*\\S[\\s\\S]*",
+          "description": "Exact verbatim text copied from the source document. Must be the original wording, not a paraphrase or summary. May contain leading, trailing, or internal line breaks; must contain at least one non-whitespace character. Omission of source text must be represented as incomplete requirement, not a fabricated quote."
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Brief subject/topic of this requirement clause. Optional; useful for human navigation."
+        },
+        "requirement_type": {
+          "type": "string",
+          "enum": [
+            "qualification",
+            "substantive_response",
+            "scoring",
+            "submission",
+            "compliance",
+            "other"
+          ],
+          "description": "Classification of requirement type. qualification=资格要求; substantive_response=实质响应; scoring=评分项; submission=提交要求; compliance=合规要求; other=其他."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "superseded", "withdrawn", "pending_review"],
+          "description": "Current status of this requirement. active=有效; superseded=已被替代; withdrawn=已撤回; pending_review=待审核. Retained from v1.2 reviewed contracts."
+        },
+        "condition": {
+          "type": "string",
+          "description": "Conditional applicability (e.g. 'if bidding as consortium'). Omit for unconditional."
+        },
+        "logic": {
+          "type": "string",
+          "enum": ["and", "or", "single"],
+          "description": "Logic operator for compound sub-clauses: and=all required, or=any one sufficient, single=simple."
+        },
+        "quantifier": {
+          "type": "string",
+          "description": "Quantifier if applicable (e.g. 'at least 3', 'no fewer than'). Omit for non-quantified."
+        },
+        "exception": {
+          "type": "string",
+          "description": "Stated exceptions or exemptions. Omit if none."
+        },
+        "proof_requirement": {
+          "type": "string",
+          "description": "What evidence/proof is required to demonstrate compliance."
+        },
+        "superseded_by": {
+          "type": "string",
+          "description": "requirement_id of the clause that supersedes this one (if any). Must be consistent with supersede_relations."
+        },
+        "is_mandatory": {
+          "type": "boolean",
+          "description": "True if non-compliance results in rejection; false if scoring deduction."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes or caveats about this requirement."
+        }
+      }
+    },
+    "SupersedeRelation": {
+      "type": "object",
+      "required": ["original_requirement_id", "superseding_requirement_id"],
+      "additionalProperties": false,
+      "properties": {
+        "original_requirement_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "requirement_id of the original clause being superseded."
+        },
+        "superseding_requirement_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "requirement_id of the clause that supersedes it."
+        },
+        "relation_type": {
+          "type": "string",
+          "enum": ["replaces", "modifies", "clarifies"],
+          "description": "Nature of the supersession: replaces fully, modifies partially, or clarifies."
+        }
+      }
+    }
+  }
+}

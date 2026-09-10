@@ -1,0 +1,85 @@
+# Shared Contracts — Schema & Artifact Reference
+
+> **Status**: v1.2 candidate documentation. Before validation, verify the installed team’s six schema identities and hashes and the matching Evidence release’s code, public Skill/docs, reviewed lock, and initialized runtime receipt. Missing or mismatched prerequisites block validation; historical results do not establish current installation capability.
+
+## Overview
+
+The `shared/contracts/` directory contains the authoritative v1.2 contract schemas and supporting documentation for the `tender-review` team. All review artifacts must conform to these schemas.
+
+## Directory Structure
+
+```
+shared/contracts/
+├── schemas/
+│   ├── project-profile.schema.json
+│   ├── file-manifest.schema.json
+│   ├── requirements.schema.json
+│   ├── coverage.schema.json
+│   ├── findings.schema.json
+│   └── review-report.schema.json
+├── report-template.md
+├── report-template.zh-CN.md
+├── CONTRACT-MANIFEST.md
+├── README.md          ← this file
+└── README.zh-CN.md
+```
+
+## Contract Version
+
+- **Current version**: v1.2
+- **Schema standard**: JSON Schema Draft-07 (`http://json-schema.org/draft-07/schema#`)
+- **Version identity**: Every schema's `$id` is `tender-review/contracts/v1.2/schemas/<name>.schema.json`
+- **Product identity**: Every artifact carries required `contract_version` with `const: "v1.2"`
+
+## Version Binding
+
+- `manifest_id` is the immutable version key carried by `file-manifest.json`.
+- `requirements.json`, `coverage.json`, and `findings.json` each carry their own `manifest_id` — they must match the manifest's `manifest_id` for the same review cycle.
+- `review-report.json`'s `inputs_version.manifest_id` must also match.
+- When materials change, a new `manifest_id` is generated; all artifacts bound to the old version are invalidated and must be re-checked.
+
+## Six Mandatory Artifacts
+
+| # | Artifact | File | Required Root Fields (besides contract_version) |
+|---|----------|------|------------------------------------------------|
+| 1 | Project Profile | `project-profile.json` | project_id, procurement_program, classification_basis |
+| 2 | File Manifest | `file-manifest.json` | manifest_id, files |
+| 3 | Requirements Matrix | `requirements.json` | matrix_id, manifest_id, requirements |
+| 4 | Coverage Ledger | `coverage.json` | coverage_id, manifest_id, coverage_closed, planned_items, completed_items, failed_items, unchecked_items, coverage_file_ids, items |
+| 5 | Findings | `findings.json` | findings_id, manifest_id, findings |
+| 6 | Review Report | `review-report.json` | report_id, scope, inputs_version, coverage_ref, conclusion, unresolved, unchecked_items, tool_failures |
+
+All schemas use `additionalProperties: false` at the root level; nested objects are generally closed as well.
+
+## Key Business Rules (encoded in validator, not just documentation)
+
+- **Coverage closure**: denominator = completed + failed + unchecked; unclosed → partial_only/cannot_conclude only.
+- **Bilateral evidence**: potential_rejection findings require both tender-side (requirement_refs) and bid-side (bid_evidence) with parseable locations.
+- **Version binding**: `manifest_id` must be consistent across manifest, coverage, findings, and report.
+- **SHA-256**: strict 64-character lowercase hex fullmatch; trailing newline rejected.
+- **Conclusion admission**: pass/pass_with_cautions prohibited when coverage is unclosed or unresolved failures exist.
+- **Excluded files**: `coverage.excluded` is a string array; each entry must be "file_id: non-empty reason"; bare file IDs or empty reasons are not valid exclusions.
+- **Review traceability**: withdrawal/downgrade reasons go in `findings[].limitations` or `report.review_summary.notes` (string); there is no `review_reason` field in findings.
+
+## Schema Validation
+
+The validator uses `jsonschema==4.25.1` (MIT, Python>=3.9) with:
+- `Draft7Validator.check_schema()` for meta-schema validation
+- `Draft7Validator` with `FormatChecker` for instance validation
+- Local-only `Registry` — no remote `$ref` resolution
+
+Schema validation is structural. It does not guarantee business consistency or that independent re-reading has occurred.
+
+## Human Review Boundary
+
+This team provides **assistance-level review only**:
+- Findings are leads marked "potential issue, human re-check required" — never evaluation verdicts.
+- Qualification, disqualification, and binding decisions are made by authorized humans or procurement authorities.
+- The agent may indicate consequences and risks stated in tender documents, but cannot present its own judgment as an official rejection or legal ruling.
+
+## What Is NOT Here
+
+- Validator scripts (`validate_report.py`, `schema_runtime.py`) are in the evidence skill, not in shared contracts.
+- Dependency lock files are managed by the evidence skill.
+- Development/test artifacts, private review paths, and agent working directories are excluded.
+- Historical hashes are marked pending; final stable hashes will be generated by an independent assembler from frozen artifacts.
