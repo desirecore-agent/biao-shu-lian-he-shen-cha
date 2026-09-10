@@ -1,0 +1,53 @@
+{
+  "$schema": "agentfs/v1/team-members-lock",
+  "lockfileVersion": 1,
+  "teamId": "biao-shu-lian-he-shen-cha",
+  "resolvedAt": "2026-09-11T00:00:00Z",
+  "agents": {
+    "tender-review-lead": {
+      "source": "git",
+      "role": "supervisor",
+      "url": "https://github.com/desirecore-agent/tender-review-lead.git",
+      "commit": "d00cd383e4ae14fa4954fd99036f5a08628f5da1",
+      "syncedAt": "2026-09-11T00:00:00Z",
+      "version": "0.1.0",
+      "contentHash": "v3:a32eb4da7cea4d036b6eee580053dd316da77b6e45e32b3f289ee362a86383a8"
+    },
+    "tender-review-requirements": {
+      "source": "git",
+      "role": "member",
+      "url": "https://github.com/desirecore-agent/tender-review-requirements.git",
+      "commit": "ce3d24e265fb9b3941fb7c5006bb200b31c0e02f",
+      "syncedAt": "2026-09-11T00:00:00Z",
+      "version": "0.1.0",
+      "contentHash": "v3:70591c23824eeea960a25397665e0dbcc4e701413deeaaf7083ff4b15fee102c"
+    },
+    "tender-review-commercial": {
+      "source": "git",
+      "role": "member",
+      "url": "https://github.com/desirecore-agent/tender-review-commercial.git",
+      "commit": "dce5678c10bd7fa7786127af079948dd76cd5ae2",
+      "syncedAt": "2026-09-11T00:00:00Z",
+      "version": "0.1.0",
+      "contentHash": "v3:00b4611284c259064d9f7061343db46fc297ad56653a2e2ce3f893600e8f2e0f"
+    },
+    "tender-review-visual": {
+      "source": "git",
+      "role": "member",
+      "url": "https://github.com/desirecore-agent/tender-review-visual.git",
+      "commit": "20e5f38178289fc1178bd2cc7fa676c1eb33b6d7",
+      "syncedAt": "2026-09-11T00:00:00Z",
+      "version": "0.1.0",
+      "contentHash": "v3:61f9112fce151877a5f527d50244777dabee7459d0ea9c2566fbf8bc3b7f3055"
+    },
+    "tender-review-evidence": {
+      "source": "git",
+      "role": "member",
+      "url": "https://github.com/desirecore-agent/tender-review-evidence.git",
+      "commit": "a7589cada98a0fab812f8b848f95ab1821f7cc1c",
+      "syncedAt": "2026-09-11T00:00:00Z",
+      "version": "0.1.0",
+      "contentHash": "v3:c2da13c2a6aa8bdd960272ec0140dd1b4eccf4974335f3e62500593bbf95d9c9"
+    }
+  }
+}
