@@ -15,7 +15,7 @@
   "parentTeamId": null,
   "createdBy": "user",
   "createdAt": "2026-09-11T00:00:00Z",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "distributable": true,
   "description": "基于真实文件与图像证据的标书辅助审查；结论需人工复核。"
 }
