@@ -1,33 +1,31 @@
-# Tender Review Team — usage
+# Using the Tender Review Team
 
-Preview documentation candidate. Publication pins and a tested compatible client release are not assigned yet. This text does not mean the team is currently installable or production-qualified.
+## Install
 
-## What the team does
+Find the published Tender Review Team in the market and install it through the normal UI. Confirm team identity `biao-shu-lian-he-shen-cha` and the Lead, Requirements, Commercial, Visual and Evidence members. Read and confirm that team's shared rules. Use the compatible client declared by the market entry; keep actual install errors for diagnosis instead of replacing locked sources manually.
 
-The lead coordinates four specialist members: requirements/response review, price recalculation, technical/document-image review, and independent evidence review. It identifies supported issues and unresolved questions. It does not submit bids, guarantee compliance or winning, or authenticate stamps, signatures and certificates.
+The optional Tender Review Assistant can explain the entry and installation; it is not a required sixth reviewer or a separate business preflight.
 
-## First installation
+## Give a clear request
 
-Once a pinned release is published, install the Tender Review Assistant from the market as the documented starting point and ask it to initialize the associated team. Use the exact release listed in the market; do not substitute a repository branch or copied development folder. The assistant checks the released manifest and compatible client, installs the fixed team/members and explains missing prerequisites. If it reports draft, missing source pins or a failed prerequisite, stop initialization and ask the maintainer to resolve it. Do not switch a manifest to released yourself.
+Provide authorized tender documents, bid materials, available amendments and relevant scans/images. State your review scope, deadline/context, important questions and any requested output. Originals remain unchanged.
 
-Review the installed team name and its member list. Open that specific team's settings, read the shared rules and confirm them using the normal UI. Tool approval settings do not replace this rule review. The assistant must confirm the actual installation/rules facts before handing your request to the lead. This first-use path still requires newcomer testing for the candidate; do not assume an already present same-name team is automatically adopted.
+Example:
 
-## Submit a review
+> Review these tender and bid materials before our internal submission check. Focus on eligibility, substantive response, supplied pricing and visible document images. Find important supported issues, avoid treating unreadability as absence, give evidence locations and concrete corrections. Tell me what was checked and what remains uncertain. A concise report and issue table are suitable.
 
-Provide the tender specification, bid response, amendments you possess and relevant image/scan attachments. State the review cutoff date and chosen equivalent formats. Do not upload unnecessary personal identifiers or secrets. Tell the lead which files may be read and where new outputs may be written; originals stay unchanged.
+A focused question such as “check the price totals only” is also valid. The Lead uses needed specialists; a full-team run is not required for every request. No special input object, file hashing exercise or preflight receipt is required from you.
 
-Example request:
+## Read the result
 
-> Review the attached tender and bid before the stated deadline. Check qualifications, substantive responses, pricing and visible document images. Keep originals unchanged. Give each finding its source and bid evidence, distinguish unreadable or missing content, and list matters requiring human confirmation. Return the report and evidence index.
+Expect prioritized findings with reasons, evidence locations, practical next actions and honest limitations. Independent review should explain which important findings were retained, withdrawn or need follow-up. Useful chat opinions, tables and files are valid unless you requested a particular format.
 
-The lead establishes a common file/version inventory, obtains the required preflight and delegates the specialist work. Images and relevant PDF pages must actually be viewed; OCR text is not evidence of image details or authenticity. Small text, blur and unsupported geometry remain explicit limitations. Recalculation uses supplied units, tax basis and rounding rules; missing assumptions remain unresolved.
+Check important references and unresolved questions before acting. If the reviewer only says it read the files, ask for the missing substantive opinions. If a member could not finish, the report should identify the affected scope and impact rather than imply a complete review.
 
-## Read and follow up
+For updated materials, identify the changed files and ask to recheck affected conclusions. You may request specific follow-up on a disputed finding without restarting the whole process.
 
-Expect a human-readable report and an evidence index, together with the six contract artifacts: project profile, file manifest, requirements, findings, coverage and review report. Ask for the exact attachments if they were merely mentioned. Check source locations and open items yourself. partial_only or cannot_conclude is a limited result, not a successful complete review. Structural validation means the output contract is consistent, not that all substantive conclusions are correct.
+## Optional export and boundaries
 
-For revised inputs, identify the changed files and request a new versioned review; old conclusions must not silently carry forward. If a run fails, retain the error and version references and ask to resume the recorded task. Do not blindly install the team again, copy another member's runtime or erase failed outputs to appear successful.
+Only request the legacy six-product v1.2 JSON export if you need that integration. Its schemas and validator govern that export, not ordinary review quality.
 
-## Data handling and supported environment
-
-Your selected model provider may process text and images. The team does not promise wholly local processing or zero external transmission. It must not send documents to additional services without authorization. Review capability depends on a model with the required tools and image support, sufficient compute access and successfully initialized role-owned dependencies. Use the compatible client/version published with the release; this candidate has not yet established that minimum. Human review remains required before any real submission.
+Actual image viewing is necessary for visual conclusions. Blur is a limitation, not evidence of forgery. Arithmetic depends on stated units/tax/rounding; missing assumptions remain questions. The configured model may process text/images; do not provide material you cannot authorize for that processing. Additional services require authorization. The team supports human decisions and does not guarantee compliance or award. Recorded testing is synthetic; real-tender effectiveness is not yet established.
