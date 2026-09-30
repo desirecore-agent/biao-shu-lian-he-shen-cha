@@ -1,6 +1,6 @@
 # Tender Review Team
 
-Five-role review assistance: Lead, Requirements, Commercial, Visual and independent Evidence review. Version 0.2.0 uses clear natural-language assignments and outcome quality criteria; members choose their methods and useful delivery formats.
+Five-role review assistance: Lead, Requirements, Commercial, Visual and independent Evidence review. Since 0.2.0, members use clear natural-language assignments and outcome quality criteria and choose their methods and useful delivery formats. Version 0.2.1 adds transparent portrait avatars for the team and all five members.
 
 Start with [usage](USAGE.md). Read the [project guide](PROJECT.md), [shared rules](shared/rules.md) and [quality rubric](shared/quality-rubric.md) for responsibilities, good/bad examples and focused correction guidance.
 

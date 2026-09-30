@@ -2,52 +2,52 @@
   "$schema": "agentfs/v1/team-members-lock",
   "lockfileVersion": 1,
   "teamId": "biao-shu-lian-he-shen-cha",
-  "resolvedAt": "2026-09-13T00:00:00Z",
+  "resolvedAt": "2026-09-30T09:42:31.857Z",
   "agents": {
     "tender-review-lead": {
       "source": "git",
       "role": "supervisor",
       "url": "https://github.com/desirecore-agent/tender-review-lead.git",
-      "commit": "e7c8f609b448fc482015fdc975920a5e9a30f768",
-      "syncedAt": "2026-09-13T00:00:00Z",
-      "version": "0.2.0",
-      "contentHash": "v3:e539a2e73f25ab655094c98a56147d85056a40e7da050d0a9c248810d52bf8de"
+      "commit": "c56bd8d2bc888be2676fb5207eec62bf6a6db930",
+      "syncedAt": "2026-09-30T09:42:31.857Z",
+      "version": "0.2.1",
+      "contentHash": "v3:9dc5d048179a607a478eaf66236064c6f4d368a5fc139b6a77c5c543f9f9907f"
     },
     "tender-review-requirements": {
       "source": "git",
       "role": "member",
       "url": "https://github.com/desirecore-agent/tender-review-requirements.git",
-      "commit": "6f97c72922dbb83e6b18569185d25e547f758231",
-      "syncedAt": "2026-09-13T00:00:00Z",
-      "version": "0.2.0",
-      "contentHash": "v3:61e9b9b646fd3fcd78771080c703feed2ab8e896c8c3e676bd273c71e8635a09"
+      "commit": "cd8585fa9fb4be1874835e4ee8856845bcc05f56",
+      "syncedAt": "2026-09-30T09:42:31.857Z",
+      "version": "0.2.1",
+      "contentHash": "v3:b05296e0be422ac719a8d6dcc5ff04a1f2e0552024e14e284486af14b8891d0d"
     },
     "tender-review-commercial": {
       "source": "git",
       "role": "member",
       "url": "https://github.com/desirecore-agent/tender-review-commercial.git",
-      "commit": "4a9610e491b4370fc5ed7b7d498d3b9e98558867",
-      "syncedAt": "2026-09-13T00:00:00Z",
-      "version": "0.2.0",
-      "contentHash": "v3:ea82eff8e6b582ece158ce1d211c478cdfd080e7e8cf1eb0e872e35903ee5e15"
+      "commit": "bbdbd2e57f067b70b1d462ae6def859cd1d9c8e5",
+      "syncedAt": "2026-09-30T09:42:31.857Z",
+      "version": "0.2.1",
+      "contentHash": "v3:6932cab9d752d6763f8dd401ae186c9f72e674cb58a2e81a11e61af947e5604c"
     },
     "tender-review-visual": {
       "source": "git",
       "role": "member",
       "url": "https://github.com/desirecore-agent/tender-review-visual.git",
-      "commit": "08d34d30f8bb2c47dc5579aa95d99a7a97213467",
-      "syncedAt": "2026-09-13T00:00:00Z",
-      "version": "0.2.0",
-      "contentHash": "v3:9609b767cde3d099f2eced1fd0599b6642f746b4e10160c358b78d52b877f4d8"
+      "commit": "8f5c6754b5bfd46a625fbee675c2d84b682c37f1",
+      "syncedAt": "2026-09-30T09:42:31.857Z",
+      "version": "0.2.1",
+      "contentHash": "v3:7cda587a2f347f6d4793b7193f4c4dadfbcf5ff98e2439fdc3d7f21b264d1e93"
     },
     "tender-review-evidence": {
       "source": "git",
       "role": "member",
       "url": "https://github.com/desirecore-agent/tender-review-evidence.git",
-      "commit": "0068b773f9bcb00d218b1febc81a7986ecff3300",
-      "syncedAt": "2026-09-13T00:00:00Z",
-      "version": "0.2.0",
-      "contentHash": "v3:d740c7e2430e66c6b92d775284987f6ce7df12d96b51c2ed9d95e4ed659a2879"
+      "commit": "d94a37a22561c6d936b83bfba44c7456572a0d77",
+      "syncedAt": "2026-09-30T09:42:31.857Z",
+      "version": "0.2.1",
+      "contentHash": "v3:53a3d9820face1d2e4039a474ec2af6eb6e65cf4d75bb8f085a6fe46bf5eb804"
     }
   }
 }
