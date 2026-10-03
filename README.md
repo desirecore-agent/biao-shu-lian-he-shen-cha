@@ -9,3 +9,7 @@ Review findings should be important, supported, locatable and actionable. Unread
 Install through the published market release and review team rules. Source locks protect install identity; they do not establish business accuracy. Existing recorded testing used synthetic materials. The selected model may process supplied documents/images; extra-service transmission requires authorization. The team assists human review and does not authenticate documents or guarantee award.
 
 [中文版](README.zh-CN.md)
+
+## Member display default
+
+Version 0.2.2 declares `memberDisplay: "nested"` in `team.json`: team members appear under the leader, initially collapsed. Explicit user preferences take priority. Install this release only after the DesireCore platform adds support for this field; older clients reject it during team schema validation.
