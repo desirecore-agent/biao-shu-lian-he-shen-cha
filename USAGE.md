@@ -6,6 +6,12 @@ Find the published Tender Review Team in the market and install it through the n
 
 The optional Tender Review Assistant can explain the entry and installation; it is not a required sixth reviewer or a separate business preflight.
 
+## Model service prerequisites
+
+Before submitting documents or images, configure and confirm the selected provider/model route and service availability, and make sure you may send the materials to that provider. Provider terms, applicable licensing and any separate service costs remain your responsibility. Current verified configuration and authorization may be reused; no special machine receipt is required.
+
+The team checks available configuration/status evidence or your explicit confirmation before affected work and new external calls. If required readiness or authorization is missing, it stops the affected calls and reports unfinished scope instead of inventing findings. Do not use tender materials as a readiness probe. Team instructions cannot undo requests already sent by the Host to the default inference model.
+
 ## Give a clear request
 
 Provide authorized tender documents, bid materials, available amendments and relevant scans/images. State your review scope, deadline/context, important questions and any requested output. Originals remain unchanged.
